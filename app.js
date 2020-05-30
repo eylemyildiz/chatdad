@@ -3,8 +3,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const passport = require('passport');
 const session = require('express-session');
+const passport = require('passport');
+const redisStore = require('./helpers/redisStore');
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -36,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 
 //express-session
 app.use(session({
+  store: redisStore,
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
