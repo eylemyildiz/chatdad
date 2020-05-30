@@ -14,7 +14,12 @@ const chatRouter = require('./routes/chat');
 
 const app = express();
 
+//helpers
 const db = require('./helpers/db')();
+
+//middlewares
+const isAuthenticated = require('./middleware/isAuthenticated');
+
 //env dosyasından value bastırma örneği
 //console.log(process.env.NAME);
 
@@ -34,7 +39,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure:true, maxAge: 14 * 24 * 3600000}
+  cookie: { maxAge: 14 * 24 * 3600000} //Eğer https kullansaydık bir de virgül ile secure:true ekleyecektik buraya.
 }));
 
 //passport.js
@@ -43,7 +48,8 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/chat', chatRouter);
+// app.use('/chat', chatRouter);  //middlewre eklenmeden önce
+app.use('/chat',isAuthenticated ,chatRouter);//middleware eklendikten sonra
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy(
     },
     ((accessToken, refreshToken, profile, done)=>{
         const data = profile._json;
-        console.log(data);
+        //console.log(data);
         //user'ı veritabanına kaydetmek için id googleId'li hesabın olup olmadığını kontrol ediyoruz.
         //Kullanıcı yoksa yaratılacak
         User.findOrCreate(
