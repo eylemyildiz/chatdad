@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
+const db = require('./helpers/db')();
 //env dosyasından value bastırma örneği
 //console.log(process.env.NAME);
 
